@@ -29,9 +29,15 @@ def preprocess_text(text, stop_words):
         List of cleaned, lowercase token strings with punctuation
         and stop words removed.
     """
-    # TODO: Call nlp(text), iterate tokens, skip token.is_punct and
-    #       token.is_space, lowercase token.text, drop stop words
-    pass
+    doc = nlp(text)
+    tokens = []
+    for token in doc:
+        if token.is_punct or token.is_space:
+            continue
+        token_text = token.text.lower()
+        if token_text not in stop_words:
+            tokens.append(token_text)
+    return tokens
 
 
 def extract_linguistic_annotations(text):
@@ -44,8 +50,8 @@ def extract_linguistic_annotations(text):
         List of (token_text, pos_tag, dep_label) tuples — one per
         token. Use spaCy's .text, .pos_, and .dep_ attributes.
     """
-    # TODO: Process text with spaCy and build annotation tuples
-    pass
+    doc = nlp(text)
+    return [(token.text, token.pos_, token.dep_) for token in doc]
 
 
 def extract_entities(text):
@@ -59,8 +65,8 @@ def extract_entities(text):
         appearance order. Use doc.ents and each entity's .text
         and .label_ attributes.
     """
-    # TODO: Process text with spaCy and extract entity tuples
-    pass
+    doc = nlp(text)
+    return [(ent.text, ent.label_) for ent in doc.ents]
 
 
 if __name__ == "__main__":
